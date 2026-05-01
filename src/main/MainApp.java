@@ -10,10 +10,8 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            // Carrega o arquivo FXML da pasta view
             Parent root = FXMLLoader.load(getClass().getResource("/view/MainScene.fxml"));
             Scene scene = new Scene(root);
-            
             primaryStage.setTitle("Sistema de Gestão de Provas - POO");
             primaryStage.setScene(scene);
             primaryStage.show();

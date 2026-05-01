@@ -4,13 +4,12 @@ import java.util.*;
 import model.Aluno;
 
 public class CalculadoraResultados {
-
     public static void ordenarAlfabetica(List<Aluno> alunos) {
         alunos.sort(Comparator.comparing(Aluno::getNome));
     }
 
     public static void ordenarPorNota(List<Aluno> alunos) {
-        // Ordenação decrescente de acertos
+        // Ordenação decrescente por número de acertos
         alunos.sort(Comparator.comparingInt(Aluno::getAcertos).reversed());
     }
 

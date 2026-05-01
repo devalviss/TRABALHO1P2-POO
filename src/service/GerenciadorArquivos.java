@@ -9,7 +9,7 @@ public class GerenciadorArquivos {
     public static void salvarDadosDisciplina(String nomeArquivo, List<Aluno> alunos) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(nomeArquivo + ".txt"))) {
             for (Aluno a : alunos) {
-                // Salva no formato: RESPOSTAS [TAB] NOME
+                // Formato exigido: Respostas [TAB] Nome
                 bw.write(a.getRespostas() + "\t" + a.getNome());
                 bw.newLine();
             }
@@ -18,11 +18,7 @@ public class GerenciadorArquivos {
 
     public static List<Aluno> lerDadosDisciplina(String nomeArquivo) throws IOException {
         List<Aluno> alunos = new ArrayList<>();
-        File file = new File(nomeArquivo + ".txt");
-        
-        if (!file.exists()) throw new FileNotFoundException("Arquivo da disciplina não encontrado.");
-
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo + ".txt"))) {
             String linha;
             while ((linha = br.readLine()) != null) {
                 String[] partes = linha.split("\t");
@@ -34,8 +30,8 @@ public class GerenciadorArquivos {
         return alunos;
     }
 
-    public static String lerGabarito(String caminho) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
+    public static String lerGabarito(File arquivo) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
             String linha = br.readLine();
             return (linha != null) ? linha.trim() : "";
         }

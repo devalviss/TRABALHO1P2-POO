@@ -17,9 +17,7 @@ public class Aluno {
         } else {
             int soma = 0;
             for (int i = 0; i < 10; i++) {
-                if (respostas.charAt(i) == gabarito.charAt(i)) {
-                    soma++;
-                }
+                if (respostas.charAt(i) == gabarito.charAt(i)) soma++;
             }
             this.acertos = soma;
         }
