@@ -11,13 +11,15 @@ public class Aluno {
     }
 
     public void calcularNota(String gabarito) {
-        // Regra: VVVVVVVVVV ou FFFFFFFFFF resulta em 0
+        // Regra do enunciado: se todas forem iguais (V ou F), a nota é 0
         if (respostas.equals("VVVVVVVVVV") || respostas.equals("FFFFFFFFFF")) {
             this.acertos = 0;
         } else {
             int soma = 0;
             for (int i = 0; i < 10; i++) {
-                if (respostas.charAt(i) == gabarito.charAt(i)) soma++;
+                if (respostas.charAt(i) == gabarito.charAt(i)) {
+                    soma++;
+                }
             }
             this.acertos = soma;
         }

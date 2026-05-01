@@ -10,6 +10,7 @@ public class CalculadoraResultados {
     }
 
     public static void ordenarPorNota(List<Aluno> alunos) {
+        // Ordenação decrescente de acertos
         alunos.sort(Comparator.comparingInt(Aluno::getAcertos).reversed());
     }
 

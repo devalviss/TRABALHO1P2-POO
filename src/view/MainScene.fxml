@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.MainController" style="-fx-padding: 20;">
+    <Label text="Cadastro de Disciplina" style="-fx-font-weight: bold;"/>
+    <TextField fx:id="txtNomeDisciplina" promptText="Nome da Disciplina"/>
+    <Button text="Iniciar Disciplina" onAction="#criarDisciplina"/>
+    
+    <Separator/>
+    
+    <Label text="Dados do Aluno"/>
+    <TextField fx:id="txtNomeAluno" promptText="Nome do Aluno"/>
+    <TextField fx:id="txtRespostas" promptText="Respostas (ex: VFVFVFVFVF)"/>
+    <Button text="Adicionar Aluno" onAction="#adicionarAluno"/>
+    
+    <Button text="Salvar Arquivo" onAction="#finalizarESalvar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+    
+    <TextArea fx:id="txtSaida" editable="false" prefHeight="150"/>
+</VBox>
