@@ -1,20 +1,188 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.MainController" style="-fx-padding: 20;">
-    <Label text="Cadastro de Disciplina" style="-fx-font-weight: bold;"/>
-    <TextField fx:id="txtNomeDisciplina" promptText="Nome da Disciplina"/>
-    <Button text="Iniciar Disciplina" onAction="#criarDisciplina"/>
-    
-    <Separator/>
-    
-    <Label text="Dados do Aluno"/>
-    <TextField fx:id="txtNomeAluno" promptText="Nome do Aluno"/>
-    <TextField fx:id="txtRespostas" promptText="Respostas (ex: VFVFVFVFVF)"/>
-    <Button text="Adicionar Aluno" onAction="#adicionarAluno"/>
-    
-    <Button text="Salvar Arquivo" onAction="#finalizarESalvar" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-    
-    <TextArea fx:id="txtSaida" editable="false" prefHeight="150"/>
-</VBox>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.MainController"
+            style="-fx-background-color: #1a1d2e; -fx-font-family: 'Segoe UI';"
+            prefWidth="700" prefHeight="600">
+
+    <!-- ===== HEADER ===== -->
+    <top>
+        <VBox style="-fx-background-color: #12152a; -fx-padding: 16 24 16 24; -fx-border-color: #2a2f50; -fx-border-width: 0 0 1 0;">
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <Label text="⬡" style="-fx-text-fill: #6c63ff; -fx-font-size: 22px;"/>
+                <VBox spacing="1">
+                    <Label text="Sistema de Gestão de Provas"
+                           style="-fx-text-fill: #e8eaf6; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <Label text="Programação Orientada a Objetos — UECE"
+                           style="-fx-text-fill: #6b7280; -fx-font-size: 10px;"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <!-- Badge de status da disciplina -->
+                <HBox fx:id="badgeDisciplina" alignment="CENTER" spacing="6"
+                      style="-fx-background-color: #1e2240; -fx-background-radius: 20; -fx-padding: 5 14 5 14;">
+                    <Circle fx:id="circleStatus" radius="4" fill="#374151"/>
+                    <Label fx:id="lblStatusDisciplina" text="Sem disciplina"
+                           style="-fx-text-fill: #6b7280; -fx-font-size: 11px;"/>
+                </HBox>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- ===== CONTEÚDO CENTRAL ===== -->
+    <center>
+        <ScrollPane fitToWidth="true"
+                    style="-fx-background: transparent; -fx-background-color: transparent;">
+            <VBox spacing="16" style="-fx-padding: 20 24 20 24;">
+
+                <!-- === SEÇÃO 1: DISCIPLINA === -->
+                <VBox style="-fx-background-color: #1e2240; -fx-background-radius: 10;
+                             -fx-border-color: #2a2f50; -fx-border-radius: 10; -fx-border-width: 1;
+                             -fx-padding: 16;">
+                    <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-padding: 0 0 12 0;">
+                        <Label text="1" style="-fx-background-color: #6c63ff; -fx-text-fill: white;
+                                              -fx-background-radius: 50; -fx-min-width: 22; -fx-min-height: 22;
+                                              -fx-alignment: center; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                        <Label text="Disciplina" style="-fx-text-fill: #c7c9e0; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="txtNomeDisciplina" promptText="Nome da disciplina (ex: Cálculo II)"
+                                   HBox.hgrow="ALWAYS"
+                                   style="-fx-background-color: #12152a; -fx-text-fill: #e8eaf6;
+                                          -fx-prompt-text-fill: #4b5163; -fx-border-color: #2a2f50;
+                                          -fx-border-radius: 6; -fx-background-radius: 6;
+                                          -fx-padding: 9 12 9 12; -fx-font-size: 13px;"/>
+                        <Button text="Iniciar" onAction="#criarDisciplina"
+                                style="-fx-background-color: #6c63ff; -fx-text-fill: white;
+                                       -fx-background-radius: 6; -fx-padding: 9 20 9 20;
+                                       -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- === SEÇÃO 2: ALUNO === -->
+                <VBox fx:id="painelAluno" style="-fx-background-color: #1e2240; -fx-background-radius: 10;
+                             -fx-border-color: #2a2f50; -fx-border-radius: 10; -fx-border-width: 1;
+                             -fx-padding: 16; -fx-opacity: 0.45;">
+                    <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-padding: 0 0 12 0;">
+                        <Label text="2" style="-fx-background-color: #374151; -fx-text-fill: #9ca3af;
+                                              -fx-background-radius: 50; -fx-min-width: 22; -fx-min-height: 22;
+                                              -fx-alignment: center; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                        <Label text="Adicionar Aluno" style="-fx-text-fill: #c7c9e0; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblContadorAlunos" text="0 alunos"
+                               style="-fx-text-fill: #6b7280; -fx-font-size: 11px;"/>
+                    </HBox>
+
+                    <GridPane hgap="10" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                            <ColumnConstraints hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <TextField fx:id="txtNomeAluno" promptText="Nome completo do aluno"
+                                   GridPane.columnIndex="0" GridPane.rowIndex="0"
+                                   style="-fx-background-color: #12152a; -fx-text-fill: #e8eaf6;
+                                          -fx-prompt-text-fill: #4b5163; -fx-border-color: #2a2f50;
+                                          -fx-border-radius: 6; -fx-background-radius: 6;
+                                          -fx-padding: 9 12 9 12; -fx-font-size: 13px;"/>
+
+                        <TextField fx:id="txtRespostas" promptText="Respostas: VFVFVFVFVF"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                   style="-fx-background-color: #12152a; -fx-text-fill: #e8eaf6;
+                                          -fx-prompt-text-fill: #4b5163; -fx-border-color: #2a2f50;
+                                          -fx-border-radius: 6; -fx-background-radius: 6;
+                                          -fx-padding: 9 12 9 12; -fx-font-size: 13px; -fx-font-family: 'Courier New';"/>
+
+                        <HBox GridPane.columnIndex="0" GridPane.rowIndex="1"
+                              GridPane.columnSpan="2" spacing="10" alignment="CENTER_RIGHT">
+                            <Label fx:id="lblValidacaoRespostas" text=""
+                                   style="-fx-font-size: 11px;" HBox.hgrow="ALWAYS"/>
+                            <Button text="+ Adicionar Aluno" onAction="#adicionarAluno"
+                                    style="-fx-background-color: #1e2240; -fx-text-fill: #6c63ff;
+                                           -fx-border-color: #6c63ff; -fx-border-radius: 6;
+                                           -fx-background-radius: 6; -fx-padding: 8 18 8 18;
+                                           -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                        </HBox>
+                    </GridPane>
+                </VBox>
+
+                <!-- === SEÇÃO 3: LISTA DE ALUNOS === -->
+                <VBox fx:id="painelListaAlunos"
+                      style="-fx-background-color: #1e2240; -fx-background-radius: 10;
+                             -fx-border-color: #2a2f50; -fx-border-radius: 10; -fx-border-width: 1;
+                             -fx-padding: 16;" managed="false" visible="false">
+                    <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-padding: 0 0 10 0;">
+                        <Label text="📋" style="-fx-font-size: 13px;"/>
+                        <Label text="Alunos Cadastrados" style="-fx-text-fill: #c7c9e0; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                    </HBox>
+                    <ListView fx:id="listaAlunos" prefHeight="140"
+                              style="-fx-background-color: #12152a; -fx-border-color: #2a2f50;
+                                     -fx-border-radius: 6; -fx-background-radius: 6;
+                                     -fx-control-inner-background: #12152a;"/>
+                </VBox>
+
+                <!-- === SEÇÃO 4: FINALIZAR === -->
+                <VBox fx:id="painelFinalizar" style="-fx-background-color: #1e2240; -fx-background-radius: 10;
+                             -fx-border-color: #2a2f50; -fx-border-radius: 10; -fx-border-width: 1;
+                             -fx-padding: 16; -fx-opacity: 0.45;">
+                    <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-padding: 0 0 12 0;">
+                        <Label text="3" style="-fx-background-color: #374151; -fx-text-fill: #9ca3af;
+                                              -fx-background-radius: 50; -fx-min-width: 22; -fx-min-height: 22;
+                                              -fx-alignment: center; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                        <Label text="Processar Gabarito e Exportar" style="-fx-text-fill: #c7c9e0; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                    </HBox>
+
+                    <Label text="Selecione o arquivo de gabarito (.txt com 10 caracteres V/F) para calcular as notas e gerar os relatórios de ordenação alfabética e por nota."
+                           wrapText="true"
+                           style="-fx-text-fill: #6b7280; -fx-font-size: 11px; -fx-padding: 0 0 12 0;"/>
+
+                    <Button fx:id="btnFinalizar" text="🗂  Selecionar Gabarito e Processar"
+                            onAction="#finalizarESalvar" maxWidth="Infinity"
+                            style="-fx-background-color: #6c63ff; -fx-text-fill: white;
+                                   -fx-background-radius: 6; -fx-padding: 11 0 11 0;
+                                   -fx-font-size: 14px; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                </VBox>
+
+                <!-- === SEÇÃO 5: SAÍDA / RESULTADOS === -->
+                <VBox fx:id="painelResultados"
+                      style="-fx-background-color: #12152a; -fx-background-radius: 10;
+                             -fx-border-color: #2a2f50; -fx-border-radius: 10; -fx-border-width: 1;
+                             -fx-padding: 0;" managed="false" visible="false">
+                    <HBox style="-fx-padding: 12 16 12 16; -fx-border-color: transparent transparent #2a2f50 transparent;
+                                 -fx-border-width: 0 0 1 0;" spacing="8" alignment="CENTER_LEFT">
+                        <Label text="✓" style="-fx-text-fill: #10b981; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <Label text="Resultados" style="-fx-text-fill: #c7c9e0; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Limpar" onAction="#limparTudo"
+                                style="-fx-background-color: transparent; -fx-text-fill: #6b7280;
+                                       -fx-border-color: #374151; -fx-border-radius: 4; -fx-background-radius: 4;
+                                       -fx-padding: 3 10 3 10; -fx-font-size: 11px; -fx-cursor: hand;"/>
+                    </HBox>
+                    <TextArea fx:id="txtSaida" editable="false" prefHeight="200" wrapText="true"
+                              style="-fx-background-color: #12152a; -fx-text-fill: #a5f3c8;
+                                     -fx-font-family: 'Courier New'; -fx-font-size: 12px;
+                                     -fx-control-inner-background: #12152a; -fx-border-color: transparent;
+                                     -fx-background-radius: 0 0 10 10; -fx-padding: 12 16 12 16;"/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <!-- ===== STATUS BAR ===== -->
+    <bottom>
+        <HBox style="-fx-background-color: #12152a; -fx-padding: 6 24 6 24;
+                     -fx-border-color: #2a2f50; -fx-border-width: 1 0 0 0;" spacing="16" alignment="CENTER_LEFT">
+            <Label fx:id="lblStatusBar" text="Pronto. Crie uma disciplina para começar."
+                   style="-fx-text-fill: #6b7280; -fx-font-size: 11px;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="POO · UECE" style="-fx-text-fill: #374151; -fx-font-size: 10px;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
